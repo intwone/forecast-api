@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum BeachPosition {
+  S @map("S")
+  E @map("E")
+  W @map("W")
+  N @map("N")
+
+  @@map("beach_position")
+}
+
+model Beach {
+  id       String        @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  lat      Float
+  lng      Float
+  position BeachPosition
+
+  @@map("beach")
+}
+
+model User {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String @unique
+  password String
+
+  @@map("user")
+}
