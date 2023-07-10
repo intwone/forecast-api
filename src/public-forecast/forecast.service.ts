@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { Beach } from '@prisma/client'
+import { BeachRepository } from '@src/private-database/beach.repository'
 import { ForecastPoint } from '@src/private-stormglass/protocols/forecast-point.protocol'
 import { StormglassService } from '@src/private-stormglass/stormglass.service'
 import { BeachForecastProtocol } from '@src/public-beach/protocols/beach.protocol'
@@ -8,7 +9,10 @@ import { ForecastProcessingInternalError } from '@src/utils/errors/forecast-proc
 
 @Injectable()
 export class ForecastService {
-  public constructor(private readonly stormglassService: StormglassService) {}
+  public constructor(
+    private readonly stormglassService: StormglassService,
+    private readonly beachRepository: BeachRepository
+  ) {}
 
   public async process(beaches: Beach[]): Promise<TimeForecastProtocol[]> {
     const beachForecast: BeachForecastProtocol[] = []
@@ -58,5 +62,13 @@ export class ForecastService {
     }
 
     return forecastByTime
+  }
+
+  public async find(): Promise<TimeForecastProtocol[]> {
+    const beaches = await this.beachRepository.findMany()
+
+    const forecast = await this.process(beaches)
+
+    return forecast
   }
 }

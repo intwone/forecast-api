@@ -1,4 +1,12 @@
-import { BadRequestException, CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common'
+import {
+  BadRequestException,
+  CallHandler,
+  ConflictException,
+  ExecutionContext,
+  Injectable,
+  NestInterceptor,
+} from '@nestjs/common'
+import { UniqueConstraintError } from '@src/utils/errors/unique-constraint.error'
 import { handleDatabaseErrorsUtil } from '@src/utils/handle-database-errors.util'
 import { isPrismaErrorUtil } from '@src/utils/is-prisma-error.util'
 import { Observable, catchError } from 'rxjs'
@@ -10,6 +18,10 @@ export class DatabaseInterceptor implements NestInterceptor {
       catchError(error => {
         if (isPrismaErrorUtil(error)) {
           error = handleDatabaseErrorsUtil(error)
+        }
+
+        if (error instanceof UniqueConstraintError) {
+          throw new ConflictException(error.message)
         }
 
         throw new BadRequestException(error.message)

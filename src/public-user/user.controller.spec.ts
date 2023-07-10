@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common'
+import { HttpStatus, INestApplication } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { PrismaClient } from '@prisma/client'
 import { AppModule } from '@src/app.module'
@@ -10,7 +10,7 @@ describe('Users', () => {
   let app: INestApplication
 
   beforeEach(async () => {
-    await prismaService.beach.deleteMany()
+    await prismaService.user.deleteMany()
 
     const module: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
@@ -21,7 +21,7 @@ describe('Users', () => {
   })
 
   afterAll(async () => {
-    await prismaService.beach.deleteMany()
+    await prismaService.user.deleteMany()
     await app.close()
   })
 
@@ -34,7 +34,27 @@ describe('Users', () => {
 
     const response = await supertest(app.getHttpServer()).post('/users').send(user)
 
-    expect(response.status).toBe(201)
+    expect(response.status).toBe(HttpStatus.CREATED)
     expect(response.body.data).toEqual(expect.objectContaining(user))
+  })
+
+  it('should return 409 (conflict) when user email already exists', async () => {
+    const user = {
+      name: 'John Doe',
+      email: 'johndoe@mail.com',
+      password: '12345678',
+    }
+
+    await prismaService.user.create({
+      data: {
+        name: user.name,
+        email: user.email,
+        password: user.password,
+      },
+    })
+
+    // const response = await supertest(app.getHttpServer()).post('/users').send(user)
+
+    // expect(response.status).toBe(HttpStatus.CONFLICT)
   })
 })

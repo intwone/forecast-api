@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common'
+import { HttpStatus, INestApplication } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { BeachPosition, PrismaClient } from '@prisma/client'
 import { AppModule } from '@src/app.module'
@@ -35,7 +35,7 @@ describe('Beaches', () => {
 
     const response = await supertest(app.getHttpServer()).post('/beaches').send(beach)
 
-    expect(response.status).toBe(201)
+    expect(response.status).toBe(HttpStatus.CREATED)
     expect(response.body.data).toEqual(expect.objectContaining(beach))
   })
 })

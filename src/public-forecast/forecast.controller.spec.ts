@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common'
+import { HttpStatus, INestApplication } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { BeachPosition, PrismaClient } from '@prisma/client'
 import { AppModule } from '@src/app.module'
@@ -40,7 +40,7 @@ describe('ForecastService', () => {
 
     const response = await supertest(app.getHttpServer()).get('/forecast')
 
-    expect(response.status).toBe(200)
+    expect(response.status).toBe(HttpStatus.OK)
     expect(response.body.data).toEqual(apiForecastResponseBeachFixture)
   })
 
@@ -49,6 +49,6 @@ describe('ForecastService', () => {
 
     const response = await supertest(app.getHttpServer()).get('/forecast')
 
-    expect(response.status).toBe(500)
+    expect(response.status).toBe(HttpStatus.INTERNAL_SERVER_ERROR)
   })
 })

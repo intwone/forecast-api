@@ -8,5 +8,6 @@ import { ForecastService } from '@src/public-forecast/forecast.service'
   imports: [StormglassModule, DatabaseModule],
   controllers: [ForecastController],
   providers: [ForecastService],
+  exports: [ForecastService],
 })
 export class ForecastModule {}
