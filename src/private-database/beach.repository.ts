@@ -20,6 +20,7 @@ export class BeachRepository {
       lat: number
       lng: number
       position: BeachPosition
+      user: { connect: { id: string } }
     }
   }): Promise<Beach> {
     return this.prismaService.beach.create(args)

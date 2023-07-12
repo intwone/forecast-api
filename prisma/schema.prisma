@@ -22,15 +22,21 @@ model Beach {
   lat      Float
   lng      Float
   position BeachPosition
+  // fks
+  userId   String        @map("user_id") @db.ObjectId
+  // relations
+  user     User          @relation(fields: [userId], references: [id])
 
   @@map("beach")
 }
 
 model User {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
   name     String
-  email    String @unique
+  email    String  @unique
   password String
+  // fields
+  beach    Beach[]
 
   @@map("user")
 }

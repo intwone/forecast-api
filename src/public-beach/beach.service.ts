@@ -1,24 +1,27 @@
 import { Injectable } from '@nestjs/common'
 import { Beach } from '@prisma/client'
 import { BeachRepository } from '@src/private-database/beach.repository'
-import { CreateBeachDto } from '@src/public-beach/dtos/create-beach.dto'
+import { CreateBeachProtocol } from '@src/public-beach/protocols/beach.protocol'
 
 @Injectable()
 export class BeachService {
   public constructor(private readonly beachRepository: BeachRepository) {}
 
-  public async create(beachDto: CreateBeachDto): Promise<Beach> {
-    const { lat, lng, name, position } = beachDto
+  public async create(beach: CreateBeachProtocol): Promise<Beach> {
+    const { name, lat, lng, position, userId } = beach
 
-    const beach = await this.beachRepository.create({
+    const newBeach = await this.beachRepository.create({
       data: {
         name: name,
         lat: lat,
         lng: lng,
         position: position,
+        user: {
+          connect: { id: userId },
+        },
       },
     })
 
-    return beach
+    return newBeach
   }
 }

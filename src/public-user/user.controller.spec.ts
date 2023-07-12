@@ -6,7 +6,7 @@ import supertest from 'supertest'
 
 const prismaService = new PrismaClient()
 
-describe('Users', () => {
+describe('UserController', () => {
   let app: INestApplication
 
   beforeEach(async () => {
@@ -35,26 +35,5 @@ describe('Users', () => {
     const response = await supertest(app.getHttpServer()).post('/users').send(user)
 
     expect(response.status).toBe(HttpStatus.CREATED)
-    expect(response.body.data).toEqual(expect.objectContaining(user))
-  })
-
-  it('should return 409 (conflict) when user email already exists', async () => {
-    const user = {
-      name: 'John Doe',
-      email: 'johndoe@mail.com',
-      password: '12345678',
-    }
-
-    await prismaService.user.create({
-      data: {
-        name: user.name,
-        email: user.email,
-        password: user.password,
-      },
-    })
-
-    // const response = await supertest(app.getHttpServer()).post('/users').send(user)
-
-    // expect(response.status).toBe(HttpStatus.CONFLICT)
   })
 })

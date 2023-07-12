@@ -7,7 +7,7 @@ import { Response } from 'express'
 export class ForecastController {
   public constructor(private readonly forecastService: ForecastService) {}
 
-  @Get('')
+  @Get()
   public async find(@Res() res: Response) {
     const forecast = await this.forecastService.find()
 

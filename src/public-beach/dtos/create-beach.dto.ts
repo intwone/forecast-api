@@ -1,5 +1,5 @@
 import { BeachPosition } from '@prisma/client'
-import { IsValidBeachPosition } from '@src/utils/decorators/is-valid-beach-position.decorator'
+import { IsValidBeachPosition } from '@src/public-beach/decorators/is-valid-beach-position.decorator'
 import { IsNotEmpty, IsNumber, IsString, MinLength } from 'class-validator'
 
 export class CreateBeachDto {

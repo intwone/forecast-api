@@ -24,4 +24,12 @@ export class EnvService {
   public get STORMGLASS_API_KEY() {
     return this.configService.get('STORMGLASS_API_KEY') as string
   }
+
+  public get JWT_SECRET() {
+    return this.configService.get('JWT_SECRET') as string
+  }
+
+  public get JWT_EXPIRES_IN() {
+    return this.configService.get('JWT_EXPIRES_IN') as string
+  }
 }

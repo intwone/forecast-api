@@ -7,11 +7,11 @@ import { DatabaseInterceptor } from '@src/utils/interceptors/database.intercepto
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
 
-  // Pipes
-  app.useGlobalPipes(new ValidationPipe({ transform: true }))
-
   // Interceptors
   app.useGlobalInterceptors(new DatabaseInterceptor())
+
+  // Pipes
+  app.useGlobalPipes(new ValidationPipe({ transform: true }))
 
   const envService = app.get<EnvService>(EnvService)
 

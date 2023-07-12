@@ -11,11 +11,21 @@ import supertest from 'supertest'
 const prismaService = new PrismaClient()
 const mockRequest = new MockAdapter(axios)
 
-describe('ForecastService', () => {
+describe('ForecastController', () => {
   let app: INestApplication
 
   beforeEach(async () => {
     await prismaService.beach.deleteMany()
+    await prismaService.user.deleteMany()
+
+    const user = await prismaService.user.create({
+      data: {
+        id: '64aeadf2be3c8812c404d30d',
+        name: 'same-name',
+        email: 'same-email@mail.com',
+        password: 'same-password',
+      },
+    })
 
     await prismaService.beach.create({
       data: {
@@ -23,6 +33,7 @@ describe('ForecastService', () => {
         lat: -33.792726,
         lng: 151.289824,
         position: BeachPosition.E,
+        user: { connect: { id: user.id } },
       },
     })
 
@@ -33,6 +44,11 @@ describe('ForecastService', () => {
 
     app = module.createNestApplication()
     await app.init()
+  })
+
+  afterAll(async () => {
+    await prismaService.beach.deleteMany()
+    await app.close()
   })
 
   it('should return a forecast with just a few times', async () => {

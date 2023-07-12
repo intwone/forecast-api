@@ -40,6 +40,7 @@ export class ForecastService {
       name: beach.name,
       position: beach.position,
       rating: 1,
+      userId: beach.userId,
     }))
 
     return beachData

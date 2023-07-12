@@ -8,10 +8,11 @@ import { Response } from 'express'
 export class UserController {
   public constructor(private readonly userService: UserService) {}
 
-  @Post('')
+  @Post()
   public async create(@Body() createUserDto: CreateUserDto, @Res() res: Response) {
     const user = await this.userService.create(createUserDto)
+    const { password, ...userWithoutPassword } = user
 
-    return res.status(HttpStatus.CREATED).json({ data: user })
+    return res.status(HttpStatus.CREATED).json({ data: userWithoutPassword })
   }
 }

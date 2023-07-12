@@ -1,6 +1,7 @@
 import { HttpModule } from '@nestjs/axios'
 import { Test, TestingModule } from '@nestjs/testing'
 import { Beach, BeachPosition } from '@prisma/client'
+import { DatabaseModule } from '@src/private-database/database.module'
 import { EnvModule } from '@src/private-env/env.module'
 import { EnvService } from '@src/private-env/env.service'
 import { StormglassService } from '@src/private-stormglass/stormglass.service'
@@ -21,6 +22,7 @@ describe('ForecastService', () => {
             baseURL: envService.STORMGLASS_DNS,
           }),
         }),
+        DatabaseModule,
         EnvModule,
       ],
       providers: [ForecastService, StormglassService],
@@ -43,11 +45,12 @@ describe('ForecastService', () => {
 
     const beaches: Beach[] = [
       {
+        id: 'same-id',
         lat: -33.792726,
         lng: 151.289824,
         name: 'Manly',
         position: BeachPosition.E,
-        id: 'same-id',
+        userId: 'same-user-id',
       },
     ]
 

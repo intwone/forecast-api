@@ -20,4 +20,16 @@ export class UserService {
 
     return newUser
   }
+
+  public async findById(id: string): Promise<User | null> {
+    const user = await this.userRepository.findById(id)
+
+    return user
+  }
+
+  public async findByEmail(email: string): Promise<User | null> {
+    const user = await this.userRepository.findByEmail(email)
+
+    return user
+  }
 }
