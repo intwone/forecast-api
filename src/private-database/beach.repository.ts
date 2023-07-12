@@ -8,8 +8,16 @@ export class BeachRepository {
 
   // find many
 
-  public async findMany(): Promise<Beach[]> {
-    return this.prismaService.beach.findMany()
+  private async findMany(args: { where?: { user?: { id: string } } }): Promise<Beach[]> {
+    return this.prismaService.beach.findMany(args)
+  }
+
+  public async findManyByUserId(userId: string): Promise<Beach[]> {
+    return this.findMany({
+      where: {
+        user: { id: userId },
+      },
+    })
   }
 
   // create

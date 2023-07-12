@@ -1,4 +1,5 @@
 import { HttpStatus, INestApplication } from '@nestjs/common'
+import { JwtService } from '@nestjs/jwt'
 import { Test, TestingModule } from '@nestjs/testing'
 import { BeachPosition, PrismaClient } from '@prisma/client'
 import { AppModule } from '@src/app.module'
@@ -13,6 +14,7 @@ const mockRequest = new MockAdapter(axios)
 
 describe('ForecastController', () => {
   let app: INestApplication
+  let accessToken: string
 
   beforeEach(async () => {
     await prismaService.beach.deleteMany()
@@ -37,6 +39,10 @@ describe('ForecastController', () => {
       },
     })
 
+    const payload = { sub: user.id }
+    const jwtService = new JwtService({ secret: 'supersecret' })
+    accessToken = jwtService.sign(payload, { expiresIn: '7d' })
+
     const module: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
       providers: [],
@@ -54,7 +60,9 @@ describe('ForecastController', () => {
   it('should return a forecast with just a few times', async () => {
     mockRequest.onGet().reply(200, stormglassWeather3HoursFixture)
 
-    const response = await supertest(app.getHttpServer()).get('/forecast')
+    const response = await supertest(app.getHttpServer())
+      .get('/forecast')
+      .set({ authorization: `Bearer ${accessToken}` })
 
     expect(response.status).toBe(HttpStatus.OK)
     expect(response.body.data).toEqual(apiForecastResponseBeachFixture)
@@ -63,7 +71,9 @@ describe('ForecastController', () => {
   it('should return 500 when samething goes wrong during the processing', async () => {
     mockRequest.onGet().networkError()
 
-    const response = await supertest(app.getHttpServer()).get('/forecast')
+    const response = await supertest(app.getHttpServer())
+      .get('/forecast')
+      .set({ authorization: `Bearer ${accessToken}` })
 
     expect(response.status).toBe(HttpStatus.INTERNAL_SERVER_ERROR)
   })

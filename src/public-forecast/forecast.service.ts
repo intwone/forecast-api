@@ -65,8 +65,8 @@ export class ForecastService {
     return forecastByTime
   }
 
-  public async find(): Promise<TimeForecastProtocol[]> {
-    const beaches = await this.beachRepository.findMany()
+  public async find(userId: string): Promise<TimeForecastProtocol[]> {
+    const beaches = await this.beachRepository.findManyByUserId(userId)
 
     const forecast = await this.process(beaches)
 

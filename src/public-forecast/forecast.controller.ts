@@ -1,5 +1,8 @@
 import { Controller, HttpStatus } from '@nestjs/common'
-import { Get, Res } from '@nestjs/common/decorators'
+import { Get, Res, UseGuards } from '@nestjs/common/decorators'
+import { User } from '@prisma/client'
+import { CurrentUser } from '@src/public-auth/decorators/current-user.decorator'
+import { AuthGuard } from '@src/public-auth/guards/auth.guard'
 import { ForecastService } from '@src/public-forecast/forecast.service'
 import { Response } from 'express'
 
@@ -7,9 +10,10 @@ import { Response } from 'express'
 export class ForecastController {
   public constructor(private readonly forecastService: ForecastService) {}
 
+  @UseGuards(AuthGuard)
   @Get()
-  public async find(@Res() res: Response) {
-    const forecast = await this.forecastService.find()
+  public async find(@CurrentUser() user: User, @Res() res: Response) {
+    const forecast = await this.forecastService.find(user.id)
 
     return res.status(HttpStatus.OK).json({ data: forecast })
   }
