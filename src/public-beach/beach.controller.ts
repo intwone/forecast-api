@@ -7,7 +7,7 @@ import { BeachService } from '@src/public-beach/beach.service'
 import { CreateBeachDto } from '@src/public-beach/dtos/create-beach.dto'
 import { Response } from 'express'
 
-@Controller('beaches')
+@Controller('beach')
 export class BeachController {
   public constructor(private readonly beachService: BeachService) {}
 

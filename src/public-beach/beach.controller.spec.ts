@@ -59,7 +59,7 @@ describe('BeacheController', () => {
     }
 
     const response = await supertest(app.getHttpServer())
-      .post('/beaches')
+      .post('/beach')
       .set({ authorization: `Bearer ${accessToken}` })
       .send(beach)
 
