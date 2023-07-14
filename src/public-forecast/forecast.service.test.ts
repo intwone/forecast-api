@@ -1,6 +1,6 @@
 import { HttpModule } from '@nestjs/axios'
 import { Test, TestingModule } from '@nestjs/testing'
-import { Beach, BeachPosition } from '@prisma/client'
+import { Beach, Position } from '@prisma/client'
 import { DatabaseModule } from '@src/private-database/database.module'
 import { EnvModule } from '@src/private-env/env.module'
 import { EnvService } from '@src/private-env/env.service'
@@ -49,7 +49,7 @@ describe('ForecastService', () => {
         lat: -33.792726,
         lng: 151.289824,
         name: 'Manly',
-        position: BeachPosition.E,
+        position: Position.E,
         userId: 'same-user-id',
       },
     ]

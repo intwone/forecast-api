@@ -58,6 +58,6 @@ describe('UserController', () => {
       .set({ authorization: `Bearer ${accessToken}` })
 
     expect(response.status).toBe(HttpStatus.OK)
-    expect(response.body.data).toBe(expect.objectContaining(user))
+    expect(response.body.data).toEqual(expect.objectContaining(user))
   })
 })

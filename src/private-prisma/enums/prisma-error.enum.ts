@@ -1,3 +1,3 @@
 export enum PrismaErrorsEnum {
-  UniqueConstraintFail = 'P2002',
+  UNIQUE_CONSTRAINT_FAIL = 'P2002',
 }

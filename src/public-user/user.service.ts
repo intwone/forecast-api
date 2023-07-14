@@ -10,7 +10,7 @@ export class UserService {
   public async create(userDto: CreateUserDto): Promise<User> {
     const { name, email, password } = userDto
 
-    const newUser = await this.userRepository.create({
+    const user = await this.userRepository.create({
       data: {
         name: name,
         email: email,
@@ -18,7 +18,7 @@ export class UserService {
       },
     })
 
-    return newUser
+    return user
   }
 
   public async findById(id: string): Promise<User | null> {

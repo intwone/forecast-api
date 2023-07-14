@@ -21,11 +21,11 @@ export class AuthController {
 
     const user = await this.userService.findByEmail(email)
 
-    if (!user) throw new BadRequestException(AuthMessageEnum.EmailOrPasswordIncorrect)
+    if (!user) throw new BadRequestException(AuthMessageEnum.EMAIL_OR_PASSWORD_INCORRECT)
 
     const isCorrectPassword = await this.cryptographyService.compare(password, user.password)
 
-    if (!isCorrectPassword) throw new BadRequestException(AuthMessageEnum.EmailOrPasswordIncorrect)
+    if (!isCorrectPassword) throw new BadRequestException(AuthMessageEnum.EMAIL_OR_PASSWORD_INCORRECT)
 
     const payload = { sub: user.id }
 

@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum BeachPosition {
+enum Position {
   S @map("S")
   E @map("E")
   W @map("W")
@@ -21,7 +21,7 @@ model Beach {
   name     String
   lat      Float
   lng      Float
-  position BeachPosition
+  position Position
   // fks
   userId   String        @map("user_id") @db.ObjectId
   // relations

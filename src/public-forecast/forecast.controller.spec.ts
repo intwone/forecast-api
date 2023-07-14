@@ -1,7 +1,7 @@
 import { HttpStatus, INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test, TestingModule } from '@nestjs/testing'
-import { BeachPosition, PrismaClient } from '@prisma/client'
+import { Position, PrismaClient } from '@prisma/client'
 import { AppModule } from '@src/app.module'
 import { apiForecastResponseBeachFixture } from '@test/fixtures/api-forecast-response-beach-fixture'
 import { stormglassWeather3HoursFixture } from '@test/fixtures/stormglass-wheather-3-hours.fixture'
@@ -34,7 +34,7 @@ describe('ForecastController', () => {
         name: 'Manly',
         lat: -33.792726,
         lng: 151.289824,
-        position: BeachPosition.E,
+        position: Position.E,
         user: { connect: { id: user.id } },
       },
     })

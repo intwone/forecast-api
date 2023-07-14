@@ -14,15 +14,15 @@ export class AuthGuard extends BaseGuard {
     const request = super.getRequest(context)
     const accessToken = super.getAccessToken(request)
 
-    if (!accessToken) throw new UnauthorizedException(AuthMessageEnum.AuthorizationNotFound)
+    if (!accessToken) throw new UnauthorizedException(AuthMessageEnum.AUTHORIZATION_NOT_FOUND)
 
     const id = super.getId(accessToken)
 
-    if (!id) throw new UnauthorizedException(AuthMessageEnum.InvalidToken)
+    if (!id) throw new UnauthorizedException(AuthMessageEnum.INVALID_TOKEN)
 
     const user = await this.userService.findById(id)
 
-    if (!user) throw new UnauthorizedException(AuthMessageEnum.UserNotFound)
+    if (!user) throw new UnauthorizedException(AuthMessageEnum.USER_NOT_FOUND)
 
     request.user = user
 

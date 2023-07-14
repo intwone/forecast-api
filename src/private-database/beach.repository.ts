@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { Beach, BeachPosition } from '@prisma/client'
+import { Beach, Position } from '@prisma/client'
 import { PrismaService } from '@src/private-prisma/prisma.service'
 
 @Injectable()
@@ -27,7 +27,7 @@ export class BeachRepository {
       name: string
       lat: number
       lng: number
-      position: BeachPosition
+      position: Position
       user: { connect: { id: string } }
     }
   }): Promise<Beach> {

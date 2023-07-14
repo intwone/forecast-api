@@ -1,7 +1,7 @@
 import { HttpStatus, INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test, TestingModule } from '@nestjs/testing'
-import { BeachPosition, PrismaClient } from '@prisma/client'
+import { Position, PrismaClient } from '@prisma/client'
 import { AppModule } from '@src/app.module'
 import supertest from 'supertest'
 
@@ -28,7 +28,7 @@ describe('BeacheController', () => {
         name: 'Manly',
         lat: -33.792726,
         lng: 151.289824,
-        position: BeachPosition.E,
+        position: Position.E,
         user: { connect: { id: user.id } },
       },
     })
@@ -55,7 +55,7 @@ describe('BeacheController', () => {
       lat: -33.792726,
       lng: 151.289824,
       name: 'Manly',
-      position: BeachPosition.E,
+      position: Position.E,
     }
 
     const response = await supertest(app.getHttpServer())

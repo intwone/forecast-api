@@ -5,7 +5,7 @@ import { UniqueConstraintError } from '@src/utils/errors/unique-constraint.error
 
 export const handleDatabaseErrorsUtil = (e: PrismaClientErrorType): Error => {
   switch (e.code) {
-    case PrismaErrorsEnum.UniqueConstraintFail:
+    case PrismaErrorsEnum.UNIQUE_CONSTRAINT_FAIL:
       return new UniqueConstraintError(e)
 
     default:

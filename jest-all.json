@@ -1,7 +1,6 @@
 {
   "moduleFileExtensions": ["js", "json", "ts"],
   "rootDir": ".",
-  "displayName": "ci",
   "testEnvironment": "node",
   "testRegex": ".spec|test.ts$",
   "preset": "@shelf/jest-mongodb",
